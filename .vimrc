@@ -14,6 +14,12 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle "ctrlpvim/ctrlp.vim"
 NeoBundle "tyru/caw.vim.git"
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'scrooloose/syntastic'
 
 if has('lua') " lua機能が有効になっている場合・・・・・・①
 	"コードの自動補完
@@ -26,49 +32,33 @@ endif
 
 call neobundle#end()
 
+if neobundle#is_installed('neocomplete.vim')
+	" Vim起動時にneocompleteを有効にする
+	let g:neocomplete#enable_at_startup = 1
+	" smartcase有効化.
+	" 大文字が入力されるまで大文字小文字の区別を無視する
+	let g:neocomplete#enable_smart_case = 1
+	" 3文字以上の単語に対して補完を有効にする
+	let g:neocomplete#min_keyword_length = 3
+	" 区切り文字まで補完する
+	let g:neocomplete#enable_auto_delimiter = 1
+	" 1文字目の入力から補完のポップアップを表示
+	let g:neocomplete#auto_completion_start_length = 1
+	" 最初の候補を選択した状態にする
+	let g:neocomplete#enable_auto_select = 1
+
+	" バックスペースで補完のポップアップを閉じる
+	inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
+	" エンターキーで補完候補の確定.スニペットの展開もエンターキーで確定・・・・・・②
+	imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
+	" タブキーで補完候補の選択.
+	" スニペット内のジャンプもタブキーでジャンプ・・・・・・③
+	imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"	
+endif
+
 
 
 filetype plugin indent on
-
-highlight Pmenu ctermbg=4
-highlight PmenuSel ctermbg=1
-highlight PMenuSbar ctermbg=4
-
-" 補完ウィンドウの設定
-set completeopt=menuone
-
-" rsenseでの自動補完機能を有効化
-let g:rsenseUseOmniFunc = 1
-let g:rsenseHome = '/usr/local/lib/rsense-0.3'
-
-" auto-ctagsを使ってファイル保存時にtagsファイルを更新
-let g:auto_ctags = 1
-
-" 起動時に有効化
-let g:neocomplcache_enable_at_startup = 1
-" 大文字が入力されるまで大文字小文字の区別を無視する
-let g:neocomplcache_enable_smart_case = 1
-" _(アンダースコア)区切りの補完を有効化
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_enable_camel_case_completion  =  1
-" 最初の補完候補を選択状態にする
-let g:neocomplcache_enable_auto_select = 1
-" ポップアップメニューで表示される候補の数
-let g:neocomplcache_max_list = 20
-" シンタックスをキャッシュするときの最小文字長
-let g:neocomplcache_min_syntax_length = 3
-
-" 補完の設定
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-  endif
-  let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
-
-  if !exists('g:neocomplete#keyword_patterns')
-          let g:neocomplete#keyword_patterns = {}
-          endif
-          let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " setting 
 "文字コードをUFT-8に設定 
@@ -122,56 +112,43 @@ set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 let OSTYPE = system('uname')
-set term=xterm-256color 
-syntax on 
 
-"キー割り当て
-noremap <S-h>   ^
-noremap <S-l>   $
-noremap <S-o>   o<esc>k
-
+let g:solarized_termcolors=256
+syntax enable
+set background=light
+colorscheme solarized
 
 
 " Unit.vimの設定
-" 入力モードで開始する
 let g:unite_enable_start_insert=1
-" バッファ一覧
-noremap <C-P> :Unite buffer<CR>
-" ファイル一覧
-" noremap <C-N> :Unite -buffer-name=file file<CR>
-" 最近使ったファイルの一覧
-noremap <C-Z> :Unite file_mru<CR>
-" sourcesを「今開いているファイルのディレクトリ」とする
-noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-" ウィンドウを分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-" ウィンドウを縦に分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-
-
-"neocompleteの設定
-" Vim起動時にneocompleteを有効にする
-let g:neocomplete#enable_at_startup = 1
-" smartcase有効化.大文字が入力されるまで大文字小文字の区別を無視する
-let g:neocomplete#enable_smart_case = 1
-"3文字以上の単語に対して補完を有効にする
-let g:neocomplete#min_keyword_length = 3
-"区切り文字まで補完する
-let g:neocomplete#enable_auto_delimiter = 1
-"1文字目の入力から補完のポップアップを表示
-let g:neocomplete#auto_completion_start_length = 1
-"エンターキーで補完候補の確定.スニペットの展開もエンターキーで確定・・・・・・②
-imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
-" スニペット内のジャンプもタブキーでジャンプ・・・・・・③
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-"補完候補の色設定
-hi Pmenu ctermbg=2
-hi PmenuSel ctermbg=5
-hi PMenuSbar ctermbg=8
+"過去に開いたファイル一覧を表示
+nnoremap <silent> <S-u> :<C-u>Unite buffer<CR>
 
 "コメントアウト機能
 nmap <C-K> <Plug>(caw:hatpos:toggle)
 vmap <C-K> <Plug>(caw:hatpos:toggle)
+
+"tree表示
+map <C-n> :NERDTreeToggle<CR>
+
+"gitの変更箇所をすぐに反映させるためのやつ
+set updatetime=250
+"ヤンクしたものクリップボードに反映する
+set clipboard=unnamed,autoselect
+"カーソルを行頭，行末で止まらないようにする
+set whichwrap=b,s,h,l,<,>,[,]
+"BSで削除できるものを指定する
+set backspace=indent,eol,start
+
+" シンタックスチェックを走らせる人たち
+let g:syntastic_check_on_open = 1
+let g:syntastic_enable_signs = 1
+let g:syntastic_echo_current_error = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_enable_highlighting = 1
+" なんでか分からないけど php コマンドのオプションを上書かないと動かなかった
+" →使わなくてとりあえずいけたので一旦コメントアウト
+" let g:syntastic_php_php_args = '-l'
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
