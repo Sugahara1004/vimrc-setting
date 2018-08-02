@@ -23,6 +23,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'vim-scripts/grep.vim'
+NeoBundle 'cohama/lexima.vim'
 
 if has('lua') " lua機能が有効になっている場合・・・・・・①
 	"コードの自動補完
@@ -168,3 +169,6 @@ command! -nargs=* Grep call s:grep(<f-args>)
 function! s:grep(word, file)
 	execute 'vim ' . a:word . ' **/*.' . a:file
 endfunction
+
+" 行末にセミコロンを入れる
+nnoremap ; A;<ESC>
