@@ -22,6 +22,7 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'rking/ag.vim'
+NeoBundle 'vim-scripts/grep.vim'
 
 if has('lua') " lua機能が有効になっている場合・・・・・・①
 	"コードの自動補完
@@ -154,9 +155,16 @@ let g:syntastic_enable_signs = 1
 let g:syntastic_echo_current_error = 1
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_enable_highlighting = 1
-" なんでか分からないけど php コマンドのオプションを上書かないと動かなかった
-" →使わなくてとりあえずいけたので一旦コメントアウト
-" let g:syntastic_php_php_args = '-l'
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+
+" grepした時に自動でプレフィックスを表示させる
+augroup QuickFixCmd
+	autocmd!
+	autocmd QuickFixCmdPost *grep* cwindow
+augroup END
+
+" vimgrepを簡単にかけるようにするもの 
+" 使い方: Grep word file 
+command! -nargs=* Grep call s:grep(<f-args>)
+function! s:grep(word, file)
+	execute 'vim ' . a:word . ' **/*.' . a:file
+endfunction
