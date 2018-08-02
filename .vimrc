@@ -149,6 +149,8 @@ set clipboard+=unnamed
 set whichwrap=b,s,h,l,<,>,[,]
 "BSで削除できるものを指定する
 set backspace=indent,eol,start
+" 行末にセミコロンを入れる
+nnoremap ; A;<ESC>^
 
 " シンタックスチェックを走らせる人たち
 let g:syntastic_check_on_open = 1
@@ -165,10 +167,7 @@ augroup END
 
 " vimgrepを簡単にかけるようにするもの 
 " 使い方: Grep word file 
-command! -nargs=* Grep call s:grep(<f-args>)
+command! -nargs=* Vgrep call s:grep(<f-args>)
 function! s:grep(word, file)
-	execute 'vim ' . a:word . ' **/*.' . a:file
+	execute 'vimgrep ' . a:word . ' **/*.' . a:file
 endfunction
-
-" 行末にセミコロンを入れる
-nnoremap ; A;<ESC>
