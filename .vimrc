@@ -20,6 +20,8 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'ap/vim-css-color'
+NeoBundle 'rking/ag.vim'
 
 if has('lua') " lua機能が有効になっている場合・・・・・・①
 	"コードの自動補完
@@ -29,6 +31,12 @@ if has('lua') " lua機能が有効になっている場合・・・・・・①
 	" スニペット集
 	NeoBundle 'Shougo/neosnippet-snippets'
 endif
+
+if executable('ag')
+	let g:ctrlp_use_caching=0
+	let g:ctrlp_user_command='ag %s -i --nocolor --nogroup -g ""'
+endif
+
 
 call neobundle#end()
 
@@ -134,7 +142,7 @@ map <C-n> :NERDTreeToggle<CR>
 "gitの変更箇所をすぐに反映させるためのやつ
 set updatetime=250
 "ヤンクしたものクリップボードに反映する
-set clipboard=unnamed,autoselect
+set clipboard+=unnamed
 "カーソルを行頭，行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
 "BSで削除できるものを指定する
