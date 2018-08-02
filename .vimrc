@@ -23,7 +23,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'vim-scripts/grep.vim'
-NeoBundle 'cohama/lexima.vim'
 
 if has('lua') " lua機能が有効になっている場合・・・・・・①
 	"コードの自動補完
@@ -57,10 +56,10 @@ if neobundle#is_installed('neocomplete.vim')
 	" 最初の候補を選択した状態にする
 	let g:neocomplete#enable_auto_select = 1
 
-	" バックスペースで補完のポップアップを閉じる
-	inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
 	" エンターキーで補完候補の確定.スニペットの展開もエンターキーで確定・・・・・・②
 	imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
+	" 補完候補が表示されている場合は確定。そうでない場合は改行
+	inoremap <expr><CR>  pumvisible() ? neocomplcache#close_popup() : "<CR>"
 	" タブキーで補完候補の選択.
 	" スニペット内のジャンプもタブキーでジャンプ・・・・・・③
 	imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"	
