@@ -65,7 +65,13 @@ if neobundle#is_installed('neocomplete.vim')
 	imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"	
 endif
 
+let OSTYPE = system('uname')
 
+" themeカラー
+let g:solarized_termcolors=256
+syntax enable
+set background=light
+colorscheme solarized
 
 filetype plugin indent on
 
@@ -82,6 +88,18 @@ set autoread
 set hidden 
 " 入力中のコマンドをステータスに表示する
 set showcmd
+"gitの変更箇所をすぐに反映させるためのやつ
+set updatetime=250
+"ヤンクしたものクリップボードに反映する
+set clipboard+=unnamed
+"カーソルを行頭，行末で止まらないようにする
+set whichwrap=b,s,h,l,<,>,[,]
+"BSで削除できるものを指定する
+set backspace=indent,eol,start
+" 行末にセミコロンを入れる
+nnoremap ; A;<ESC>^
+
+
 
 " 見た目系
 " 行番号を表示
@@ -98,8 +116,6 @@ set laststatus=2
 set wildmode=list:longest
 " 折り返さない
 set nowrap
-
-
 " 行頭以外のTab文字の表示幅（スペースいくつ分）
 set tabstop=4
 " 行頭でのTab文字の表示幅
@@ -120,14 +136,6 @@ set hlsearch
 " ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-let OSTYPE = system('uname')
-
-let g:solarized_termcolors=256
-syntax enable
-set background=light
-colorscheme solarized
-
-
 " Unit.vimの設定
 let g:unite_enable_start_insert=1
 "過去に開いたファイル一覧を表示
@@ -139,17 +147,6 @@ vmap <C-K> <Plug>(caw:hatpos:toggle)
 
 "tree表示
 map <C-n> :NERDTreeToggle<CR>
-
-"gitの変更箇所をすぐに反映させるためのやつ
-set updatetime=250
-"ヤンクしたものクリップボードに反映する
-set clipboard+=unnamed
-"カーソルを行頭，行末で止まらないようにする
-set whichwrap=b,s,h,l,<,>,[,]
-"BSで削除できるものを指定する
-set backspace=indent,eol,start
-" 行末にセミコロンを入れる
-nnoremap ; A;<ESC>^
 
 " シンタックスチェックを走らせる人たち
 let g:syntastic_check_on_open = 1
@@ -164,11 +161,18 @@ augroup QuickFixCmd
 	autocmd QuickFixCmdPost *grep* cwindow
 augroup END
 
-" vimgrepを簡単にかけるようにするもの 
+" vimgrepを簡単にするもの 
 " 使い方: Grep word file 
 command! -nargs=* Vgrep call s:grep(<f-args>)
 function! s:grep(word, file)
 	execute 'vimgrep ' . a:word . ' **/*.' . a:file
+endfunction
+
+" ファイル内置換を簡単にするもの 
+" 使い方: Grep word file 
+command! -nargs=* Rep call s:rep(<f-args>)
+function! s:rep(aRep, bRep)
+	execute '%s/' . a:aRep . '/' . a:bRep . '/g'
 endfunction
 
 " 自動でコメントアウトされるのを防ぐ
@@ -177,3 +181,8 @@ augroup auto_comment_off
 	autocmd BufEnter * setlocal formatoptions-=r
 	autocmd BufEnter * setlocal formatoptions-=o
 augroup END
+
+nnoremap + <C-w>+
+nnoremap - <C-w>-
+nnoremap <C-l> <C-w>>
+nnoremap <C-h> <C-w><
