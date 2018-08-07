@@ -19,10 +19,10 @@ NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'scrooloose/syntastic'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'vim-scripts/grep.vim'
+NeoBundle 'w0rp/ale'
 
 if has('lua') " lua機能が有効になっている場合・・・・・・①
 	"コードの自動補完
@@ -38,6 +38,13 @@ if executable('ag')
 	let g:ctrlp_user_command='ag %s -i --nocolor --nogroup -g ""'
 endif
 
+" エラーチェックのあれこれ
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_sign_error = '⚠'
+let g:ale_sign_warning = '_'
+let g:ale_sign_column_always = 1
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '']
 
 call neobundle#end()
 
@@ -148,13 +155,6 @@ vmap <C-K> <Plug>(caw:hatpos:toggle)
 "tree表示
 map <C-n> :NERDTreeToggle<CR>
 
-" シンタックスチェックを走らせる人たち
-let g:syntastic_check_on_open = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_echo_current_error = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_enable_highlighting = 1
-
 " grepした時に自動でプレフィックスを表示させる
 augroup QuickFixCmd
 	autocmd!
@@ -182,7 +182,11 @@ augroup auto_comment_off
 	autocmd BufEnter * setlocal formatoptions-=o
 augroup END
 
+" 画面の大きさを変更しやすくする
 nnoremap + <C-w>+
 nnoremap - <C-w>-
 nnoremap <C-l> <C-w>>
 nnoremap <C-h> <C-w><
+
+" 正規表現を書きやすくする
+nnoremap /  /\v
