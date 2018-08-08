@@ -190,3 +190,9 @@ nnoremap <C-h> <C-w><
 
 " 正規表現を書きやすくする
 nnoremap /  /\v
+
+" 移動を楽にする
+nmap L $
+vmap L $
+nmap H ^
+vmap H ^
