@@ -26,7 +26,7 @@ NeoBundle 'w0rp/ale'
 
 if has('lua') " lua機能が有効になっている場合・・・・・・①
 	"コードの自動補完
-	NeoBundle 'Shougo/neocomplete.vim'
+    NeoBundle 'Shougo/neocomplete.vim'
 	" スニペットの補完機能
 	NeoBundle "Shougo/neosnippet"
 	" スニペット集
@@ -37,14 +37,6 @@ if executable('ag')
 	let g:ctrlp_use_caching=0
 	let g:ctrlp_user_command='ag %s -i --nocolor --nogroup -g ""'
 endif
-
-" エラーチェックのあれこれ
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let g:ale_sign_error = '⚠'
-let g:ale_sign_warning = '_'
-let g:ale_sign_column_always = 1
-let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '']
 
 call neobundle#end()
 
@@ -81,6 +73,19 @@ set background=light
 colorscheme solarized
 
 filetype plugin indent on
+
+" エラーチェックのあれこれ
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_sign_error = '⨉'
+let g:ale_sign_warning = '⚠'
+let g:ale_sign_column_always = 1
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '']
+
+" タブの可視化
+set list
+set list listchars=tab:\|\  
+hi SpecialKey ctermbg=NONE ctermfg=lightgray
 
 " setting 
 "文字コードをUFT-8に設定 
@@ -196,3 +201,4 @@ nmap L $
 vmap L $
 nmap H ^
 vmap H ^
+
