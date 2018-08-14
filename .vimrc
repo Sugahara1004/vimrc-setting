@@ -202,3 +202,11 @@ vmap L $
 nmap H ^
 vmap H ^
 
+" 閉じるのを自動でやる
+inoremap ( ()<ESC>i
+inoremap { {}<ESC>i
+inoremap [ []<ESC>i
+inoremap ' ''<ESC>i
+inoremap " ""<ESC>i
+
+nnoremap O  o<ESC>k
