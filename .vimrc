@@ -23,6 +23,7 @@ NeoBundle 'ap/vim-css-color'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'vim-scripts/grep.vim'
 NeoBundle 'w0rp/ale'
+NeoBundle "slim-template/vim-slim"
 
 if has('lua') " lua機能が有効になっている場合・・・・・・①
 	"コードの自動補完
@@ -120,6 +121,8 @@ set number
 set virtualedit=onemore
 " インデントはスマートインデント
 set smartindent
+" 新しい行を開始したとき、新しい行のインデントを現在行と同じにする
+set autoindent
 " 括弧入力時の対応する括弧を表示
 set showmatch
 " ステータスラインを常に表示
@@ -210,3 +213,4 @@ inoremap ' ''<ESC>i
 inoremap " ""<ESC>i
 
 nnoremap O  o<ESC>k
+
