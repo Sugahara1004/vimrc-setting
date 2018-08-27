@@ -218,3 +218,9 @@ nnoremap O  o<ESC>k
 " vueファイルをhtmlのシンタックスで読み込む
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
 
+" ruby,vueファイルの時のインデント調整
+augroup fileTypeIndent
+    autocmd!
+    autocmd BufNewFile,BufRead *.rb setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.vue setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab noautoindent
+augroup END
