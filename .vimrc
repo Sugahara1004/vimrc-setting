@@ -215,3 +215,6 @@ inoremap " ""<ESC>i
 
 nnoremap O  o<ESC>k
 
+" vueファイルをhtmlのシンタックスで読み込む
+autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
+
