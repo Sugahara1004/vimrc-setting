@@ -16,6 +16,7 @@ NeoBundle "ctrlpvim/ctrlp.vim"
 NeoBundle "tyru/caw.vim.git"
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'freeo/vim-kalisi'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'Shougo/unite.vim'
@@ -66,11 +67,11 @@ endif
 
 let OSTYPE = system('uname')
 
-" themeカラー
-let g:solarized_termcolors=256
 syntax enable
+" themeカラー
+colorscheme kalisi
 set background=light
-colorscheme solarized
+
 
 filetype plugin indent on
 
